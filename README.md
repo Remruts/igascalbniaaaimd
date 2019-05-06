@@ -2,7 +2,7 @@
 
 ![](gifs/gameplay2.gif)
 
-This is a repository for the game I've Got A Second Chance At Life But Now I'm An Axolotl And In Massive Debt (IGASCALBNIAAAIMD) a top-down shooter made in 72 hours for the Ludum Dare 44 Jam by **Andreas Sturmer** (remruts).
+This is a repository for the game I've Got A Second Chance At Life But Now I'm An Axolotl And In Massive Debt (IGASCALBNIAAAIMD), a top-down shooter made in 72 hours for the Ludum Dare 44 Jam by **Andreas Sturmer** (remruts).
 
 The game is made in Unity 2017.3.0f3 and is currently **unfinished**. It also has several bugs and the UI is broken for some resolutions.
 
