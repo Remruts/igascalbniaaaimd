@@ -29,7 +29,7 @@ public class dungeonUIScript : MonoBehaviour {
 				num++;
 			}
 		}
-		Debug.Log(num);
+		//Debug.Log(num);
 		return num;
 	}
 
@@ -44,7 +44,7 @@ public class dungeonUIScript : MonoBehaviour {
 		foreach (var b in managerScript.man.bubbleList){
 			if (managerScript.man.hasBubbles[b.name]){
 				GameObject bb = Instantiate(bubbleButtonPrefab, transform.position, Quaternion.identity) as GameObject;
-				bb.transform.parent = transform;
+				bb.transform.SetParent(transform);
 				bb.transform.localScale = Vector3.one;
 
 				bubbleButtonScript bbScript = bb.GetComponent<bubbleButtonScript>();

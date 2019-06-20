@@ -61,8 +61,10 @@ public class shopUIScript : MonoBehaviour {
 
 			GameObject button = Instantiate(shopButtonPrefab, transform.position, Quaternion.identity) as GameObject;
 
-			button.transform.parent = transform;
-			button.GetComponent<RectTransform>().anchoredPosition = new Vector3(-100f + (itemCount % 4) * 34f, 48f - (itemCount / 4) * 34f, 0f);
+			button.transform.SetParent(transform);
+			RectTransform butRect = button.GetComponent<RectTransform>();
+			butRect.anchoredPosition = new Vector3(-100f + (itemCount % 4) * 34f, 48f - (itemCount / 4) * 34f, 0f);
+			butRect.localScale = Vector3.one;
 			itemCount++;
 
 			button.GetComponent<shopButtonScript>().setItem(currentItem);

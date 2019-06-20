@@ -33,6 +33,7 @@ public class managerScript : MonoBehaviour {
 	public GameObject playerChar;
 	public List<GameObject> enemies;
 	GameObject[] allEnemies;
+	public Texture2D cursorTexture;
 
 	public Dictionary<string, bool> hasBubbles;
 
@@ -109,6 +110,8 @@ public class managerScript : MonoBehaviour {
 	}
 
 	void Start(){
+		Cursor.SetCursor(cursorTexture,new Vector2(8f, 8f), CursorMode.Auto);
+
 		startLives = lives;
 		startAttack = attack;
 		startDefense = defense;

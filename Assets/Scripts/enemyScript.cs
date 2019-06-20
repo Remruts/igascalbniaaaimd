@@ -29,7 +29,7 @@ public class enemyScript : MonoBehaviour {
 	protected Animator anim;
 	protected AnimatorStateInfo state;
 
-	protected Vector3 speed = Vector3.zero;
+	protected Vector2 speed = Vector2.zero;
 
 	protected List<Vector3> currentPath;
 	protected float pathfindingTime;
@@ -83,6 +83,7 @@ public class enemyScript : MonoBehaviour {
 				spr.color = Color.white;
 			}
 
+			/*
 			// Check both
 			if (speed.x != 0 || speed.y != 0){
 				RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(0.87f, 0.29f), 0f, speed, maxSpeed, solidMask.value);
@@ -94,17 +95,20 @@ public class enemyScript : MonoBehaviour {
 					}
 				}
 			}
+			*/
 
+			/*
 			//check to see if still colliding
 			RaycastHit2D doubleCheck = Physics2D.BoxCast(transform.position, new Vector2(0.87f, 0.29f), 0f, speed, 0, solidMask.value);
 			if (doubleCheck.collider != null){
 				transform.position += (transform.position - new Vector3(doubleCheck.point.x, doubleCheck.point.y, 0f)).normalized * maxSpeed;
 			}
+			*/
 
 			if (speed.magnitude > maxSpeed){
 				speed = speed.normalized * maxSpeed;
 			}
-			transform.position += speed;
+			rb.MovePosition(rb.position + speed);
 
 			if (lives <= 0){
 				die();
@@ -169,12 +173,13 @@ public class enemyScript : MonoBehaviour {
 		camScript.screen.shake(0.15f, 0.5f);
 
 		for (int i=0; i < Random.Range(heartNumber, heartNumber + 3); i++){
-			GameObject heart =Instantiate(heart_pickup, transform.position, Quaternion.identity) as GameObject;
+			GameObject heart = Instantiate(heart_pickup, transform.position, Quaternion.identity) as GameObject;
 			heart.GetComponent<heartPickupScript>().changeLives(Random.Range(heartValue, heartValue + 5));
 		}
 
 		Destroy(gameObject);
 	}
+
 
 	protected void avoidObstacles(){
 		Vector3 nearestPoint = transform.position;
@@ -193,7 +198,8 @@ public class enemyScript : MonoBehaviour {
 				return;
 			}
 
-			Vector3 ahead = transform.position + speed.normalized*maxSpeed*2;
+			Vector2 tempSpeed = speed.normalized*maxSpeed*2;
+			Vector3 ahead = transform.position + new Vector3(tempSpeed.x, tempSpeed.y, 0f);
 
 			foreach (GameObject obstacle in managerScript.man.enemies){
 				if (obstacle == null || obstacle == gameObject){
@@ -206,7 +212,7 @@ public class enemyScript : MonoBehaviour {
 			if (Vector3.Distance(nearestPoint, transform.position) <= obstacleRadius){
 				Vector3 avoidanceForce = (ahead - nearestPoint).normalized * 0.1f;
 				moving = true;
-				speed += avoidanceForce;
+				speed += new Vector2(avoidanceForce.x, avoidanceForce.y);
 			}
 		}
 	}
@@ -232,6 +238,13 @@ public class enemyScript : MonoBehaviour {
 			}
 		}
 	}
+	void OnCollisionEnter2D(Collision2D col){
+		if (col.gameObject.CompareTag("solid")){
+			speed.y = 0f;
+			speed.x = 0f;
+		}
+	}
+
 	void OnDrawGizmos(){
 		if (managerScript.man == null){
 			return;

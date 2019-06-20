@@ -8,11 +8,11 @@ public class livesChangeUIScript : MonoBehaviour {
 	public TMP_Text livesText;
 	public TMP_Text livesTextShadow;
 
-	float alpha = 1f;
+	//float alpha = 1f;
 	int lives = 100;
 
 	void Update(){
-		Transform foregroundTrans =  transform.GetChild(1);
+		Transform foregroundTrans =  transform.GetChild(0);
 		Vector3 pos2 = foregroundTrans.position;
 		pos2.z = -1;
 		foregroundTrans.position = pos2;

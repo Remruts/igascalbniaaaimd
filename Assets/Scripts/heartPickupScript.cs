@@ -7,7 +7,7 @@ public class heartPickupScript : MonoBehaviour {
 	public GameObject explosion;
 	public float lifeTimer = 3f;
 	int lives = 15;
-	float height = 0f;
+	float height = 0.01f;
 	Vector3 speed;
 	public SpriteRenderer spr;
 	public Transform heartTransform;
@@ -38,16 +38,19 @@ public class heartPickupScript : MonoBehaviour {
 			spr.color = tmp;
 		}
 
-		if (height >= 0){
+		if (height > 0){
 			speed.z -= Time.deltaTime * 1f;
 		} else {
 			height = 0f;
-			speed.z = -speed.z;
-			speed *= 0.7f;
-			if (Mathf.Abs(speed.z) < 0.05f){
+			if (Mathf.Abs(speed.z) > 0.1f){
+				speed.z = -speed.z;
+				speed *= 0.7f;
+			} else {
 				speed.z = 0;
 			}
 		}
+
+
 
 		if (Input.GetMouseButton(1)){
 			Vector3 diff = transform.position - managerScript.man.playerChar.transform.position;
@@ -57,7 +60,7 @@ public class heartPickupScript : MonoBehaviour {
 
 		}
 
-		if (Mathf.Abs(speed.z) < 0.05f){
+		if (Mathf.Abs(speed.z) > 0.05f){
 			height += speed.z;
 		}
 		speed.x *= 0.98f;

@@ -20,7 +20,7 @@ public class axolotlScript : MonoBehaviour {
 	private SpriteRenderer sprHead;
 	private SpriteRenderer sprBody;
 
-	private Vector3 speed = Vector3.zero;
+	private Vector2 speed = Vector3.zero;
 	public float maxSpeed = 0.05f;
 
 	private bool hurt = false;
@@ -43,7 +43,7 @@ public class axolotlScript : MonoBehaviour {
 		sprBody = axolotlBody.GetComponent<SpriteRenderer>();
 
 		maxSpeed += 0.01f * (managerScript.man.speed - 1f);
-		
+
 		sortDrawing();
 	}
 
@@ -139,8 +139,10 @@ public class axolotlScript : MonoBehaviour {
 					float bulletAngle = headAngle + (bubbleType.number * 15f - 15f)/2f;
 
 					for (int i=0; i < bubbleType.number; i++){
+						Vector3 bubbleVector = new Vector3(Mathf.Cos(bulletAngle * Mathf.Deg2Rad), Mathf.Sin(bulletAngle * Mathf.Deg2Rad), 0f);
+
 						GameObject bubble;
-						bubble = Instantiate(bubblePrefab, axolotlHead.transform.position, Quaternion.identity) as GameObject;
+						bubble = Instantiate(bubblePrefab, axolotlHead.transform.position + bubbleVector * 1f, Quaternion.identity) as GameObject;
 
 						bubbleScript bscr = bubble.GetComponent<bubbleScript>();
 						bscr.SetBubbleType(managerScript.man.currentBubble);
@@ -222,7 +224,9 @@ public class axolotlScript : MonoBehaviour {
 			}
 
 			// controlChar
-			controlChar();
+			if (!hurt){
+				controlChar();
+			}
 		}
 
 	}
@@ -239,6 +243,7 @@ public class axolotlScript : MonoBehaviour {
 		}
 
 		// Check both
+		/*
 		if (speed.x != 0 || speed.y != 0){
 			RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(0.87f, 0.29f), 0f, speed, maxSpeed, solidMask.value);
 
@@ -249,12 +254,15 @@ public class axolotlScript : MonoBehaviour {
 				}
 			}
 		}
+		*/
 
 		//check to see if still colliding
+		/*
 		RaycastHit2D doubleCheck = Physics2D.BoxCast(transform.position, new Vector2(0.87f, 0.29f), 0f, speed, 0, solidMask.value);
 		if (doubleCheck.collider != null){
 			transform.position += (transform.position - new Vector3(doubleCheck.point.x, doubleCheck.point.y, 0f)).normalized * maxSpeed;
 		}
+		*/
 
 		if (cooldown > 0){
 			cooldown -= Time.deltaTime;
@@ -267,7 +275,7 @@ public class axolotlScript : MonoBehaviour {
 			speed = speed.normalized * maxSpeed;
 		}
 		if (!hurt && !dead){
-			transform.position += speed;
+			rb.MovePosition(rb.position + speed);
 		}
 		if (dead){
 			anim.Play("die");
@@ -291,6 +299,10 @@ public class axolotlScript : MonoBehaviour {
 
 				rb.velocity = direction * knockback;
 			}
+		}
+		if (col.gameObject.CompareTag("solid")){
+			speed.y = 0f;
+			speed.x = 0f;
 		}
 	}
 

@@ -289,7 +289,7 @@ public class dungeonGeneratorScript : MonoBehaviour {
 		wallMap = GenerateArray(false);
 		floorMap = GenerateArray(false);
 		Debug.Log("Generating dungeon...");
-		Debug.Log(Random.seed);
+		//Debug.Log(Random.seed);
 		MakeHoles(wallMap, holeNumber);
 		placeChar();
 		placeStairs();
